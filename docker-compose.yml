@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  text-to-video:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: text-to-video:latest
+    container_name: text-to-video
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./datasets:/app/datasets
+      - ./outputs:/app/outputs
+      - ./AI/checkpoints:/app/AI/checkpoints
+      - ./static/videos:/app/static/videos
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  tensorboard:
+    image: tensorflow/tensorflow:latest
+    container_name: text-to-video-tensorboard
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./runs:/runs
+    command: tensorboard --logdir=/runs --host=0.0.0.0
+    profiles:
+      - monitoring
