@@ -2,14 +2,20 @@ name: Docker Build
 
 on:
   push:
+    branches: [main, master]
   pull_request:
+    branches: [main, master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Build Docker Image
-      run: docker build -t horizonai .
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t text-to-video:ci .
+      - name: Smoke-run container
+        run: |
+          docker run -d --name t2v-ci -p 5000:5000 text-to-video:ci
+          sleep 30
+          curl -f http://localhost:5000/health || (docker logs t2v-ci && exit 1)
+          docker stop t2v-ci
