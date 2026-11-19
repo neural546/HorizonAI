@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text-to-Video AI</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Text-to-Video AI</h1>
+      <p class="subtitle">Generate short videos from text prompts using latent diffusion.</p>
+    </header>
+    <section class="card">
+      <label for="prompt">Prompt</label>
+      <textarea id="prompt" rows="3" placeholder="a dragon flying above snowy mountains at sunset">a dragon flying above snowy mountains at sunset</textarea>
+      <div class="controls">
+        <div class="control">
+          <label for="cfg">CFG Scale: <span id="cfg-val">7.5</span></label>
+          <input type="range" id="cfg" min="1" max="20" step="0.5" value="7.5" />
+        </div>
+        <div class="control">
+          <label for="frames">Frames</label>
+          <select id="frames">
+            <option value="8" selected>8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="resolution">Resolution</label>
+          <select id="resolution">
+            <option value="64" selected>64 x 64</option>
+            <option value="128">128 x 128</option>
+            <option value="256">256 x 256</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="fps">FPS</label>
+          <select id="fps">
+            <option value="8" selected>8</option>
+            <option value="12">12</option>
+            <option value="24">24</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="seed">Seed</label>
+          <input type="number" id="seed" value="42" min="0" />
+        </div>
+      </div>
+      <button id="generate-btn" class="primary">Generate Video</button>
+      <div class="progress-wrap" id="progress-wrap" hidden>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <p id="status" class="status">queued</p>
+      </div>
+      <p id="error" class="error" hidden></p>
+    </section>
+    <section class="card" id="video-card" hidden>
+      <h2>Result</h2>
+      <video id="video" controls loop playsinline></video>
+      <div class="actions">
+        <a id="download" class="secondary" download>Download MP4</a>
+      </div>
+    </section>
+    <footer><p>Built with Flask, PyTorch, Diffusers, and FFmpeg.</p></footer>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
