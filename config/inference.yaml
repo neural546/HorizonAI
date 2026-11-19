@@ -1,0 +1,31 @@
+defaults:
+  num_inference_steps: 50
+  cfg_scale: 7.5
+  scheduler_type: ddim
+  eta: 0.0
+  fps: 8
+  export_format: mp4
+  bitrate: "4M"
+  output_path: static/videos/output.mp4
+
+profiles:
+  low:
+    num_inference_steps: 20
+    cfg_scale: 7.5
+    image_size: 64
+    num_frames: 8
+    fps: 8
+
+  medium:
+    num_inference_steps: 50
+    cfg_scale: 7.5
+    image_size: 128
+    num_frames: 16
+    fps: 12
+
+  high:
+    num_inference_steps: 75
+    cfg_scale: 8.0
+    image_size: 256
+    num_frames: 32
+    fps: 24
